@@ -1,0 +1,7 @@
+class Config:
+    SECRET_KEY = 'supersecretkey'
+    MYSQL_HOST = '127.0.0.1'
+    MYSQL_USER = 'flask_user'
+    MYSQL_PASSWORD = 'Eddy@2023'
+    MYSQL_DB = 'University_db'
+    MYSQL_PORT = 3307

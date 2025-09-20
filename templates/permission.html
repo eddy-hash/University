@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permission Request</title>
+  <style>
+    * { 
+      margin: 0;
+      padding: 0; 
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif; 
+    }
+
+    body { 
+      background: #f4f6f9; 
+      color: #333;
+    }
+
+    nav { 
+      background: #0078ff; 
+      padding: 15px 20px; 
+    }
+    nav ul { 
+      list-style: none; 
+      display: flex; 
+      justify-content: center; 
+      gap: 30px; 
+    }
+    nav a { 
+      color: white; 
+      text-decoration: none; 
+      font-weight: 500; 
+      transition: 0.3s; 
+    }
+    nav a:hover { 
+      color: #ffdd57; 
+    }
+
+    .container { 
+      max-width: 800px; 
+      margin: 40px auto; 
+      background: #fff; 
+      padding: 30px; 
+      border-radius: 12px; 
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1); 
+    }
+
+    h2 { 
+      text-align: center; 
+      margin-bottom: 25px; 
+      color: #0078ff;
+    }
+
+    /* Form styling */
+    form { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 15px; 
+      margin-top: 30px;
+    }
+    input, select, textarea { 
+      padding: 12px; 
+      border: 2px solid #ddd; 
+      border-radius: 8px; 
+      font-size: 1rem; 
+      outline: none;
+    
+    }
+    input:focus, textarea:focus {
+      border-color: rgb(82, 82, 247);
+    }
+    button { 
+      padding: 12px; 
+      border: none; 
+      border-radius: 8px; 
+      background: #0078ff; 
+      color: white; 
+      font-size: 1rem; 
+      cursor: pointer; 
+      transition: 0.3s; 
+    }
+    button:hover { 
+      background: #005fcc; 
+    }
+
+    /* Table styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px; /* separate from heading */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    thead {
+      background: #0078ff;
+      color: #fff;
+    }
+    thead th {
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    tbody td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    tbody tr:hover {
+      background: #f1f6ff;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Responsive table */
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead tr {
+        display: none;
+      }
+      tbody tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+      }
+      tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: none;
+      }
+      tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #0078ff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+       <a href="{{url_for('dashboard')}}">Dashboard</a>
+      <li><a href="{{ url_for('pex_requests') }}">Permission</a></li>
+      <li><a href="{{ url_for('registration') }}">Registration</a></li>
+      <li><a href="{{ url_for('statements') }}">Statement</a></li>
+      <li><a href="{{ url_for('my_room') }}">My room</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h2>Permission Requests</h2>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Student</th>
+          <th>Reason</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+        <tr>
+          <td data-label="ID">{{ req.id }}</td>
+          <td data-label="Student">{{ req.username }}</td>
+          <td data-label="Reason">{{ req.reason }}</td>
+          <td data-label="Status">{{ req.status }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="4">No permission requests found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <form action="/pex_requests" method="POST">
+      <input type="text" name="username" placeholder="Full Name" required>
+      <input type="text" name="student_id" placeholder="Student ID" required>
+      <select name="reason" required>
+        <option value="">Select Reason</option>
+        <option value="exam">Exam Retake</option>
+        <option value="leave">Leave of Absence</option>
+        <option value="other">Other</option>
+      </select>
+      <textarea name="details" rows="4" placeholder="Provide details..." required></textarea>
+      <button type="submit">Submit Request</button>
+    </form>
+  </div>
+</body>
+</html>

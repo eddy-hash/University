@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Statements</title>
+    <style>
+        body { margin:0; font-family: Arial,sans-serif; background:#f4f4f4; }
+        .sidebar { position: fixed; top:0; left:0; width:220px; height:100%; background:#2c3e50; padding-top:20px; }
+        .sidebar ul { list-style:none; padding:0; }
+        .sidebar ul li { padding:15px; }
+        .sidebar ul li a { color:white; text-decoration:none; display:block; }
+        .sidebar ul li a:hover { background:#34495e; }
+        .content { margin-left:240px; padding:20px; min-height:100vh; }
+        table { width:100%; border-collapse: collapse; margin-top:15px; }
+        th, td { border:1px solid #ccc; padding:10px; text-align:left; }
+        th { background:#2c3e50; color:white; }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <ul>
+           <nav>
+  <ul>
+    <li><a href="{{url_for('dashboard')}}"></a>Dashboard</li>
+    <li><a href="{{ url_for('pex_requests') }}">Permission</a></li>
+    <li><a href="{{ url_for('registration') }}">Registration</a></li>
+    <li><a href="{{ url_for('statements') }}">Statement</a></li>
+    <li><a href="{{ url_for('my_room') }}">My room</a></li>
+    <li><a href="{{url_for('logout')}}">logout</a></li>
+  </ul>
+</nav>
+
+        </ul>
+    </nav>
+
+    <main class="content">
+        <h1>Statements</h1>
+        <table>
+            <thead>
+                <tr><th>Semester</th><th>Fees Paid</th><th>Balance</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>2025/1</td><td>$1000</td><td>$200</td><td>Partially Paid</td></tr>
+                <tr><td>2025/2</td><td>$1200</td><td>$0</td><td>Paid</td></tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+           function toggleMenu(){document.getElementById('nav-menu').classList.toggle('active');}
+    </script>
+</body>
+</html>

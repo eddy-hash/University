@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<style>
+  /* Base */
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
+  body { background: linear-gradient(135deg,#004080,#0073e6); min-height:100vh; display:flex; padding:20px; }
+
+  /* Hamburger Menu */
+  .hamburger { display:none; position:absolute; top:20px; left:20px; cursor:pointer; flex-direction: column; gap:5px; z-index:1100; }
+  .hamburger div { width:30px; height:4px; background:white; border-radius:2px; }
+
+  /* Container */
+  .container { display:flex; max-width:1200px; width:100%; background:#fff; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.15); overflow:hidden; transition: all 0.3s; }
+
+  /* Sidebar */
+  .left-col { width:220px; background:#2c3e50; padding:25px 15px; display:flex; flex-direction:column; gap:15px; transition: all 0.3s; }
+  .left-col a { color:white; text-decoration:none; padding:10px; border-radius:6px; transition:0.3s; }
+  .left-col a:hover { background:#34495e; }
+
+  /* Main Content */
+  .right-col { flex:1; padding:40px; background:#fff; }
+  h1 { color:#004080; margin-bottom:25px; font-size:28px; text-align:center; }
+
+  /* Dashboard Cards */
+  .card-container { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:40px; }
+  .card { background:#f9f9f9; padding:25px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); flex:1 1 200px; text-align:center; transition:transform 0.2s; }
+  .card:hover { transform:translateY(-5px); }
+  .card h2 { font-size:22px; color:#0073e6; margin-bottom:10px; }
+  .card p { font-size:15px; color:#333; }
+
+  /* Profile Form */
+  .profile-form input[type="file"] { display:block; margin:10px auto; }
+  .profile-form img { border:2px solid #0073e6; border-radius:50%; object-fit:cover; }
+  .profile-form input, .profile-form button { width:100%; padding:12px; margin-top:8px; border-radius:8px; border:1px solid #ddd; font-size:15px; }
+  .profile-form input:focus { border-color:#0073e6; background:#fff; box-shadow:0 0 8px rgba(0,115,230,0.3); outline:none; }
+  .profile-form button { background:#0073e6; color:#fff; margin-top:20px; cursor:pointer; transition:0.3s; }
+  .profile-form button:hover { background:#005bb5; transform:translateY(-2px); }
+
+  /* Responsive */
+  @media(max-width:900px){
+    .container{flex-direction:column;}
+    .hamburger{display:flex;}
+    .left-col{position:absolute; top:0; left:-250px; height:100%; z-index:1000;}
+    .left-col.active{left:0;}
+    .right-col{padding:25px;}
+  }
+
+  /* Animation */
+  .fade-in { animation: fadeIn 0.8s ease-in-out; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- Hamburger -->
+<div class="hamburger" onclick="toggleMenu()">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<div class="container fade-in">
+  <!-- Sidebar -->
+  <div class="left-col" id="nav-menu">
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('pex_requests') }}">Permission</a>
+    <a href="{{ url_for('registration') }}">Registration</a>
+    <a href="{{ url_for('statements') }}">Statements</a>
+    <a href="{{ url_for('my_room') }}">My Room</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="right-col">
+    <h1>Welcome, {{ user.full_name }}</h1>
+
+    <!-- Dashboard Cards -->
+    <div class="card-container">
+      <div class="card">
+        <h2>Permissions</h2>
+        <p>View and manage permission requests</p>
+      </div>
+      <div class="card">
+        <h2>Registration</h2>
+        <p>Register new students</p>
+      </div>
+      <div class="card">
+        <h2>Statements</h2>
+        <p>View student statements</p>
+      </div>
+      <div class="card">
+        <h2>My Room</h2>
+        <p>Manage your assigned room</p>
+      </div>
+    </div>
+
+    <!-- Profile Form -->
+    <form class="profile-form" action="{{ url_for('dashboard') }}" method="POST" enctype="multipart/form-data">
+      <label>Profile Image</label>
+      <div style="text-align:center; margin-bottom:15px;">
+        <img src="{{ url_for('static', filename='images/' + (user.profile_image or 'default.png')) }}" 
+             alt="Profile" style="width:120px; height:120px;">
+        <input type="file" name="profile_image" accept="image/*">
+      </div>
+
+      <label>Full Name</label>
+      <input type="text" value="{{ user.full_name }}" >
+
+      <label>Control Number</label>
+      <input type="text" value="{{ user.control_number }}" >
+
+      <label>Contact Number</label>
+      <input type="tel" name="phone" value="{{ user.phone }}" pattern="[0-9]{10,15}" required>
+
+      <label>NIDA Number</label>
+      <input type="text" name="nida" value="{{ user.nida }}" required>
+
+      <label>Change Password</label>
+      <input type="password" name="password" placeholder="Enter new password">
+
+      <button type="submit">Update Profile</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('nav-menu').classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>
