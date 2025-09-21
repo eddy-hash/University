@@ -98,34 +98,182 @@
       </div>
     </div>
 
-    <!-- Profile Form -->
-    <form class="profile-form" action="{{ url_for('dashboard') }}" method="POST" enctype="multipart/form-data">
-      <label>Profile Image</label>
-      <div style="text-align:center; margin-bottom:15px;">
-        <img src="{{ url_for('static', filename='images/' + (user.profile_image or 'default.png')) }}" 
-             alt="Profile" style="width:120px; height:120px;">
-        <input type="file" name="profile_image" accept="image/*">
-      </div>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - University System</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
-      <label>Full Name</label>
-      <input type="text" value="{{ user.full_name }}" >
+<style>
+* {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, sans-serif;
+}
 
-      <label>Control Number</label>
-      <input type="text" value="{{ user.control_number }}" >
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f4f4;
+}
 
-      <label>Contact Number</label>
-      <input type="tel" name="phone" value="{{ user.phone }}" pattern="[0-9]{10,15}" required>
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: #242323;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
 
-      <label>NIDA Number</label>
-      <input type="text" name="nida" value="{{ user.nida }}" required>
+.sidebar h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 30px;
+    color: rgb(35, 142, 49);
+}
 
-      <label>Change Password</label>
-      <input type="password" name="password" placeholder="Enter new password">
+/* Navigation links */
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
-      <button type="submit">Update Profile</button>
+.nav-links a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    background: white;
+    color: black;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-links a:hover {
+    background: rgba(2, 245, 144, 0.3);
+    color: white;
+}
+
+.nav-links a .material-icons {
+    font-size: 24px;
+    color: rgb(68, 68, 85);
+}
+
+/* Main content */
+.main-content {
+    flex: 1;
+    padding: 30px;
+}
+
+.main-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: rgb(35, 142, 49);
+}
+
+.main-content form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    max-width: 600px;
+}
+
+.main-content label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.main-content input, .main-content select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #f9f9f9;
+}
+
+.main-content input:focus, select:focus {
+    border-color: #0073e6;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(0,115,230,0.3);
+    outline: none;
+}
+
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #0073e6;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #005bb5;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    body { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .nav-links a { justify-content: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <h1>Dashboard</h1>
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}"><span class="material-icons">dashboard</span> Dashboard</a>
+        <a href="{{ url_for('pex_requests') }}"><span class="material-icons">assignment</span> Permission</a>
+        <a href="{{ url_for('registration') }}"><span class="material-icons">how_to_reg</span> Registration</a>
+        <a href="{{ url_for('statements') }}"><span class="material-icons">receipt_long</span> Statement</a>
+        <a href="{{ url_for('my_room') }}"><span class="material-icons">meeting_room</span> My Room</a>
+        <a href="{{ url_for('logout') }}"><span class="material-icons">logout</span> Logout</a>
+    </div>
+</aside>
+
+<div class="main-content">
+    <h2>Welcome, {{ user.username }}!</h2>
+    
+    <form action="{{ url_for('dashboard') }}" method="POST" enctype="multipart/form-data">
+        <label for="phone">Phone</label>
+        <input type="text" name="phone" id="phone" value="{{ user.phone }}">
+
+        <label for="nida">NIDA</label>
+        <input type="text" name="nida" id="nida" value="{{ user.nida }}">
+
+        <label for="password">New Password (optional)</label>
+        <input type="password" name="password" id="password">
+
+        <label for="profile_image">Profile Image</label>
+        <input type="file" name="profile_image" id="profile_image">
+
+        <button type="submit">Update Account</button>
     </form>
-  </div>
 </div>
+
+</body>
+</html>
 
 <script>
   function toggleMenu() {
