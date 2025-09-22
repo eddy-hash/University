@@ -39,8 +39,15 @@ def dashboard():
         return redirect(url_for('login'))
 
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    
+    # Logged-in user info
     cur.execute("SELECT * FROM students WHERE username=%s", (session['username'],))
     user = cur.fetchone()
+
+    # Fetch all students for table
+    cur.execute("SELECT * FROM students")
+    students = cur.fetchall()
+
     cur.close()
 
     if request.method == 'POST':
@@ -93,7 +100,7 @@ def dashboard():
         flash("Profile updated successfully!", "success")
         return redirect(url_for('dashboard'))
 
-    return render_template('dashboard.html', user=user)
+    return render_template('dashboard.html', user=user, students=students)
 
 @app.route('/update_account', methods=['POST'])
 def update_account():
@@ -196,24 +203,63 @@ def register():
             flash("Registration successful! Please login.", "success")
             return redirect(url_for('login'))
 
-    return render_template('register.html', error=error)
+@app.route('/delete_permission/<int:request_id>', methods=['POST'])
+def delete_permission(request_id):
+    if 'loggedin' not in session:
+        return redirect(url_for('login'))
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM permissions WHERE id = %s", (request_id,))
+    mysql.connection.commit()
+    cursor.close()
+
+    flash("Permission request deleted successfully!", "success")
+    return redirect(url_for('pex_requests'))
+
 
 @app.route('/pex_requests', methods=['GET', 'POST'])
 def pex_requests():
-    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    if request.method == 'POST':
-        username = request.form['username']
-        student_id = request.form['student_id']
-        reason = request.form['reason']
-        details = request.form['details']
-        cur.execute("INSERT INTO permission_requests (username, student_id, reason, details, status) VALUES (%s, %s, %s, %s, %s)",
-                    (username, student_id, reason, details, 'Pending'))
-        mysql.connection.commit()
+    if 'username' not in session:
+        return redirect(url_for('login'))
 
-    cur.execute("SELECT * FROM permission_requests")
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    username = session['username']
+
+    # Get student_id
+    cur.execute("SELECT student_id FROM students WHERE username=%s", (username,))
+    student = cur.fetchone()
+    if not student:
+        flash("Student not found", "error")
+        return redirect(url_for('dashboard'))
+    
+    student_id = student['student_id']
+
+    # Handle POST form (from statements.html)
+    if request.method == 'POST':
+        reason = request.form.get('reason')
+        details = request.form.get('details')
+
+        if reason and details:
+            cur.execute(
+                "INSERT INTO permission_requests (username, student_id, reason, details, status) "
+                "VALUES (%s, %s, %s, %s, %s)",
+                (username, student_id, reason, details, 'Pending')
+            )
+            mysql.connection.commit()
+            flash("Permission request submitted successfully", "success")
+        else:
+            flash("Reason and details are required", "error")
+
+    # Fetch permission requests for this student
+    cur.execute(
+        "SELECT * FROM permission_requests WHERE student_id=%s ORDER BY created_at DESC",
+        (student_id,)
+    )
     requests = cur.fetchall()
     cur.close()
-    return render_template('permission.html', requests=requests)
+
+    return render_template('permission.html', user_requests=requests, username=username)
+
 
 @app.route('/statements')
 def statements():
@@ -222,7 +268,6 @@ def statements():
 @app.route('/registration')
 def registration():
     return render_template('registration.html')
-
 
 @app.route('/my_room')
 def my_room():

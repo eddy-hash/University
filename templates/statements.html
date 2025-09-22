@@ -1,52 +1,296 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Statements</title>
-    <style>
-        body { margin:0; font-family: Arial,sans-serif; background:#f4f4f4; }
-        .sidebar { position: fixed; top:0; left:0; width:220px; height:100%; background:#2c3e50; padding-top:20px; }
-        .sidebar ul { list-style:none; padding:0; }
-        .sidebar ul li { padding:15px; }
-        .sidebar ul li a { color:white; text-decoration:none; display:block; }
-        .sidebar ul li a:hover { background:#34495e; }
-        .content { margin-left:240px; padding:20px; min-height:100vh; }
-        table { width:100%; border-collapse: collapse; margin-top:15px; }
-        th, td { border:1px solid #ccc; padding:10px; text-align:left; }
-        th { background:#2c3e50; color:white; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Permission Requests</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+/* Global Reset */
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+body {
+  font-family: Georgia, serif;
+  display: flex;
+  min-height: 100vh;
+  background: #f4f5f7;
+  color: #333;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: #2f3640;
+  color: #fff;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #0097e6;
+  text-align: center;
+}
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+.nav-links a:hover {
+  background: #0097e6;
+}
+.nav-links a .material-icons {
+  font-size: 22px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  position: relative;
+}
+
+/* Top Bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.profile-img {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+.logout-btn {
+  background: #e84118;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.logout-btn:hover {
+  background: #c23616;
+}
+
+/* Flash messages */
+.flash {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+.flash.success { background: #d4edda; color: #155724; }
+.flash.error { background: #f8d7da; color: #721c24; }
+
+/* Form */
+form {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+form select, form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.2s;
+}
+form select:focus, form textarea:focus {
+  border-color: #0097e6;
+  box-shadow: 0 0 6px rgba(0,151,230,0.3);
+}
+form button {
+  background: green;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+form button:hover {
+  background: darkgreen;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+table th, table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+table th {
+  background: #0097e6;
+  color: white;
+  font-weight: 600;
+}
+table tr:hover {
+  background: #f1f9ff;
+}
+.action-btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.update-btn {
+  background: #fbc531;
+  color: #333;
+}
+.update-btn:hover {
+  background: #e1a500;
+}
+.delete-btn {
+  background: #e84118;
+  color: white;
+}
+.delete-btn:hover {
+  background: #c23616;
+}
+
+/* Responsive */
+@media (max-width:768px) {
+  body { flex-direction: column; }
+  .sidebar { width: 100%; margin-bottom: 20px; }
+}
+</style>
 </head>
 <body>
-    <nav class="sidebar">
-        <ul>
-           <nav>
-  <ul>
-    <li><a href="{{url_for('dashboard')}}"></a>Dashboard</li>
-    <li><a href="{{ url_for('pex_requests') }}">Permission</a></li>
-    <li><a href="{{ url_for('registration') }}">Registration</a></li>
-    <li><a href="{{ url_for('statements') }}">Statement</a></li>
-    <li><a href="{{ url_for('my_room') }}">My room</a></li>
-    <li><a href="{{url_for('logout')}}">logout</a></li>
-  </ul>
-</nav>
 
-        </ul>
-    </nav>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <h1>Student Info</h1>
+  <div class="nav-links">
+    <a href="{{ url_for('dashboard') }}"><span class="material-icons">dashboard</span> Dashboard</a>
+    <a href="{{ url_for('pex_requests') }}"><span class="material-icons">assignment</span> Permission</a>
+    <a href="{{ url_for('registration') }}"><span class="material-icons">how_to_reg</span> Registration</a>
+    <a href="{{ url_for('statements') }}"><span class="material-icons">receipt_long</span> Statement</a>
+    <a href="{{ url_for('my_room') }}"><span class="material-icons">meeting_room</span> My Room</a>
+  </div>
+</aside>
 
-    <main class="content">
-        <h1>Statements</h1>
-        <table>
-            <thead>
-                <tr><th>Semester</th><th>Fees Paid</th><th>Balance</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>2025/1</td><td>$1000</td><td>$200</td><td>Partially Paid</td></tr>
-                <tr><td>2025/2</td><td>$1200</td><td>$0</td><td>Paid</td></tr>
-            </tbody>
-        </table>
-    </main>
+<!-- Main content -->
+<div class="main-content">
 
-    <script>
-           function toggleMenu(){document.getElementById('nav-menu').classList.toggle('active');}
-    </script>
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div style="font-weight:bold; font-size:1.1rem;">Welcome, {{ username }}</div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="{{ url_for('logout') }}" class="logout-btn">
+        <span class="material-icons">power_settings_new</span> Logout
+      </a>
+      <img src="{{ url_for('static', filename='images/profile_image.jpeg') }}" class="profile-img" alt="Profile Image">
+    </div>
+  </div>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Permission Form -->
+  <h2>Submit Permission Request</h2>
+  <form method="POST" action="{{ url_for('pex_requests') }}">
+      <label>Reason</label>
+      <select name="reason" required>
+          <option value="">-- Select Reason --</option>
+          <option value="Exam">Exam</option>
+          <option value="Postpone Year">Postpone Year</option>
+          <option value="Sick">Sick</option>
+      </select>
+      
+      <label>Details</label>
+      <textarea name="details" rows="4" required placeholder="Enter details"></textarea>
+      
+      <button type="submit">Submit Request</button>
+  </form>
+
+  <!-- User Requests Table -->
+  <h2>Your Permission Requests</h2>
+  {% if requests %}
+  <table>
+      <tr>
+          <th>Reason</th>
+          <th>Details</th>
+          <th>Status</th>
+          <th>Created At</th>
+          <th>Actions</th>
+      </tr>
+      {% for req in requests %}
+      <tr data-id="{{ req.id }}">
+          <td>{{ req.reason }}</td>
+          <td>{{ req.details }}</td>
+          <td>{{ req.status }}</td>
+          <td>{{ req.created_at }}</td>
+          <td>
+              <button class="action-btn update-btn" onclick="updateRequest({{ req.id }})">Update</button>
+              <button class="action-btn delete-btn" onclick="deleteRequest({{ req.id }})">Delete</button>
+          </td>
+      </tr>
+      {% endfor %}
+  </table>
+  {% else %}
+  <p>No permission requests found.</p>
+  {% endif %}
+</div>
+
+<script>
+function updateRequest(id) {
+  const newDetails = prompt("Enter new details for this request:");
+  if (newDetails) {
+    fetch(`/update_request/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ details: newDetails })
+    }).then(res => location.reload());
+  }
+}
+
+function deleteRequest(id) {
+  if (confirm("Are you sure you want to delete this request?")) {
+    fetch(`/delete_request/${id}`, { method: "POST" })
+      .then(res => location.reload());
+  }
+}
+</script>
+
 </body>
 </html>
