@@ -134,6 +134,9 @@ footer {
     font-family: Georgia;
     margin-bottom: 0;
 }
+.img {
+    color:black;
+}
     </style>
 </head>
 <body>
@@ -156,8 +159,10 @@ footer {
                 <input type="password" name="password" placeholder=" " required>
                 <label>Password</label>
             </div>
-
-            <button type="submit">Login</button>
+       <div class="icon">
+      <img src="{{ url_for('static', filename='images/' ~'logout.png') }}" class="img">
+      <button type="submit">Login</button>
+      </div>
         </form>
 
         <div class="links">

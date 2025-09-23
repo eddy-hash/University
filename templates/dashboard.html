@@ -23,20 +23,28 @@ body { display:flex; min-height:100vh; background:#f4f5f7; color:#333; }
 /* Main content */
 .main-content { flex:1; padding:30px 40px; position:relative; }
 
-/* Top bar */
-.top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; gap:15px; }
+
+.top-bar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;     
+    margin-bottom: 30px;
+    gap: 15px;               
+
+}
+
 #current-date { font-weight:600; color:#fff; font-size:1rem; text-align:center; }
 .logout-btn {
-    display:flex; align-items:center; gap:6px; background:#e84118; color:#fff;
-    padding:10px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:600; transition:all 0.2s;
+    display:flex; align-items:center; gap:6px; background: white; color: gray;
+    padding:10px 16px; border:none; border-radius: 8px; cursor:pointer; font-weight:600; transition:all 0.2s;
 }
 .logout-btn:hover { background:#c23616; transform:translateY(-2px); }
 .logout-btn .material-icons { font-size:20px; }
 
 /* Profile image */
 .profile-img {
-    width:150px; height:200px; border-radius:8px; object-fit:cover;
-    display:block; margin:0 auto 25px; box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    width:100px; height:100px; border-radius:50%; object-fit:cover;
+    display:block; ; box-shadow: 0 6px 15px rgba(0,0,0,0.25);
   
 }
 
@@ -72,33 +80,32 @@ td { background:#f1f2f6; }
 
 <!-- Sidebar -->
 <aside class="sidebar">
-    <h1>University</h1>
+    <h1>Student Info</h1>
     <div class="nav-links">
         <a href="{{ url_for('dashboard') }}"><span class="material-icons">dashboard</span> Dashboard</a>
         <a href="{{ url_for('pex_requests') }}"><span class="material-icons">assignment</span> Permission</a>
-        <a href="{{ url_for('registration') }}"><span class="material-icons">how_to_reg</span> Registration</a>
+        <a href="{{ url_for('update_account') }}"><span class="material-icons">how_to_reg</span> Registration</a>
         <a href="{{ url_for('statements') }}"><span class="material-icons">receipt_long</span> Statements</a>
-        <a href="{{ url_for('my_room') }}"><span class="material-icons">meeting_room</span> My Room</a>
+        <a href="{{ url_for('my_room') }}"><span class="material-icons">COU</span> Course</a>
     </div>
 </aside>
 
-<!-- Main content -->
 <div class="main-content">
 
-    <!-- Top bar with current date and logout -->
     <div class="top-bar">
         <div id="current-date"></div>
         <form action="{{ url_for('logout') }}" method="get">
+        
             <button class="logout-btn"><span class="material-icons">power_settings_new</span> Logout</button>
         </form>
+      <img src="{{ url_for('static', filename='icons/dashboard.svg') }}" width="24" height="24">
+
+   <img src="{{ url_for('static', filename='images/' ~ (user.profile_image)) }}" alt="Profile Image" class="profile-img">
     </div>
 
-    <h2 style="text-align:center; margin-bottom:20px;">My Profile</h2>
+    <h2 style="text-align:center; margin-bottom:20px;">My Details</h2>
 
-    <!-- Profile Image -->
-    <img src="{{ url_for('static', filename='images/profile_image.jpeg') }}" class="profile-img" alt="Profile Image">
-
-    <!-- Student details table (5 fields) -->
+    
     <div class="table-container">
         <table>
             <tbody>
