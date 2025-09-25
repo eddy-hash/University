@@ -22,6 +22,7 @@
             width: 360px;
             border: 2px solid #cccc;
             box-shadow: 2px 3px 4px #ccc;
+            animation: bounce 4s ease forwards;
         }
 
         h2 {
@@ -77,12 +78,16 @@
             border: none;
             border-radius: 25px;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: black;
+            box-shadow: 3px 3px 4px #007BFF;
         }
 
         .error {
@@ -134,9 +139,33 @@ footer {
     font-family: Georgia;
     margin-bottom: 0;
 }
-.img {
-    color:black;
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
+
+@keyframes bounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+   
     </style>
 </head>
 <body>
@@ -160,8 +189,7 @@ footer {
                 <label>Password</label>
             </div>
        <div class="icon">
-      <img src="{{ url_for('static', filename='images/' ~'logout.png') }}" class="img">
-      <button type="submit">Login</button>
+      <button type="submit"><img src="{{ url_for('static', filename='images/login.png') }}"  width="24" height="24" class="img">Login</button>
       </div>
         </form>
 

@@ -4,108 +4,188 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>University Dashboard</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Georgia', serif; }
-body { display:flex; min-height:100vh; background:#f4f5f7; color:#333; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f5f7;
+    color: #333;
+}
 
 /* Sidebar */
 .sidebar {
-    width:260px; background:#2f3640; color:#fff; padding:30px 20px;
-    display:flex; flex-direction:column; transition:all 0.3s ease;
+    width: 260px;
+    background: #2f3640;
+    color: #fff;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100%;
 }
-.sidebar h1 { font-size:2rem; font-weight:700; margin-bottom:40px; color:#0097e6; text-align:center; }
-.nav-links { display:flex; flex-direction:column; gap:15px; }
-.nav-links a { display:flex; align-items:center; gap:12px; text-decoration:none; padding:12px 18px; border-radius:8px; font-weight:500; color:#fff; transition:all 0.2s ease-in-out; }
-.nav-links a:hover { background:#0097e6; color:#fff; }
-.nav-links a .material-icons { font-size:24px; }
+.sidebar h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #0097e6;
+    text-align: center;
+}
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.nav-links a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #fff;
+    transition: all 0.2s ease-in-out;
+}
+.nav-links a:hover {
+    background: #007BFF;
+}
+.nav-links img {
+    vertical-align: middle;
+}
 
 /* Main content */
-.main-content { flex:1; padding:30px 40px; position:relative; }
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 120px 40px 30px 40px;
+}
 
-
+/* Top bar */
 .top-bar {
     display: flex;
-    justify-content: space-between; 
-    align-items: center;     
-    margin-bottom: 30px;
-    gap: 15px;               
-
-}
-
-#current-date { font-weight:600; color:#fff; font-size:1rem; text-align:center; }
-.logout-btn {
-    display:flex; align-items:center; gap:6px; background: white; color: gray;
-    padding:10px 16px; border:none; border-radius: 8px; cursor:pointer; font-weight:600; transition:all 0.2s;
-}
-.logout-btn:hover { background:#c23616; transform:translateY(-2px); }
-.logout-btn .material-icons { font-size:20px; }
-
-/* Profile image */
-.profile-img {
-    width:100px; height:100px; border-radius:50%; object-fit:cover;
-    display:block; ; box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-  
-}
-
-/* Table styles */
-.table-container {
-    background:#fff; padding:20px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.1);
-    max-width:600px; margin:auto; overflow-x:auto;
-}
-table { width:100%; border-collapse:collapse; }
-th, td { text-align:left; padding:12px 15px; border-bottom:1px solid #ccc; }
-th { background:#0097e6; color:#fff; font-weight:600; width:35%; }
-td { background:#f1f2f6; }
-
-/* Responsive */
-@media(max-width:900px){
-    body { flex-direction:column; }
-    .sidebar { width:100%; position:absolute; top:0; left:-100%; height:100%; z-index:1000; }
-    .sidebar.active { left:0; }
-    .main-content { padding:20px; }
-    .table-container { max-width:100%; }
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 260px;
+    right: 0;
+    background: #fff;
+    padding: 10px 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 100;
+    gap: 15px;
 }
 #current-date {
-    font-family: Roboto;  
-    color: rgb(23, 23, 82);                
-    font-size: 1.7rem;            
-    margin-bottom: 20px;          
-    font-weight: bold;            
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+}
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    color: black;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.logout-btn:hover {
+    background: #e84118;
+    transform: translateY(-2px);
+}
+.logout-btn img {
+    vertical-align: middle;
 }
 
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+.table-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: auto;
+    overflow-x: auto;
+    font-family: 'Roboto', sans-serif;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ccc;
+}
+th {
+    background: #007BFF;
+    color: #fff;
+    font-weight: 600;
+    width: 35%;
+}
+td {
+    background: #f1f2f6;
+}
+
+@media(max-width: 900px){
+    body { flex-direction: column; }
+    .sidebar { width: 100%; position: absolute; top: 0; left: -100%; height: 100%; z-index: 1000; }
+    .sidebar.active { left: 0; }
+    .main-content { margin-left: 0; padding: 140px 20px 20px 20px; }
+    .table-container { max-width: 100%; }
+    .top-bar { left: 0; right: 0; padding: 10px 20px; flex-direction: column; gap:10px; }
+}
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
 <aside class="sidebar">
     <h1>Student Info</h1>
     <div class="nav-links">
-        <a href="{{ url_for('dashboard') }}"><span class="material-icons">dashboard</span> Dashboard</a>
-        <a href="{{ url_for('pex_requests') }}"><span class="material-icons">assignment</span> Permission</a>
-        <a href="{{ url_for('update_account') }}"><span class="material-icons">how_to_reg</span> Registration</a>
-        <a href="{{ url_for('statements') }}"><span class="material-icons">receipt_long</span> Statements</a>
-        <a href="{{ url_for('my_room') }}"><span class="material-icons">COU</span> Course</a>
+        <a href="{{ url_for('dashboard') }}"><img src="{{ url_for('static', filename='images/dashboard.png') }}" alt="Dashboard" width="24" height="24">Dashboard</a>
+        <a href="{{ url_for('pex_requests') }}"><img src="{{ url_for('static', filename='images/permission.png') }}" alt="Permission" width="24" height="24">Permission</a>
+        <a href="{{ url_for('update_account') }}"><img src="{{ url_for('static', filename='images/registration.png') }}" alt="Registration" width="24" height="24">Registration</a>
+        <a href="{{ url_for('statements') }}"><img src="{{ url_for('static', filename='images/book.png') }}" alt="Statements" width="24" height="24">Statements</a>
+        <a href="{{ url_for('select_courses') }}"><img src="{{ url_for('static', filename='images/academic.png') }}" alt="Academics" width="24" height="24">Academics</a>
+        <a href="{{ url_for('change_password') }}">
+            <img src="{{ url_for('static', filename='images/password.png') }}" width="24" height="24">Change Password
+        </a>
     </div>
 </aside>
 
 <div class="main-content">
-
     <div class="top-bar">
         <div id="current-date"></div>
         <form action="{{ url_for('logout') }}" method="get">
-        
-            <button class="logout-btn"><span class="material-icons">power_settings_new</span> Logout</button>
+            <button class="logout-btn">
+                <img src="{{ url_for('static', filename='images/logout.png') }}" alt="Logout" width="20" height="20">
+                Logout
+            </button>
         </form>
-      <img src="{{ url_for('static', filename='icons/dashboard.svg') }}" width="24" height="24">
-
-   <img src="{{ url_for('static', filename='images/' ~ (user.profile_image)) }}" alt="Profile Image" class="profile-img">
+        <img src="{{ url_for('static', filename='images/' ~ user.profile_image) }}" alt="Profile Image" class="profile-img">
     </div>
 
-    <h2 style="text-align:center; margin-bottom:20px;">My Details</h2>
+    <h2 style="text-align:center; margin-bottom:20px; margin-top: 60px;">My Details</h2>
 
-    
     <div class="table-container">
         <table>
             <tbody>
@@ -117,7 +197,6 @@ td { background:#f1f2f6; }
             </tbody>
         </table>
     </div>
-
 </div>
 
 <script>
@@ -129,9 +208,10 @@ function updateDate() {
                    (day % 10 === 3 && day !== 13) ? "rd" : "th";
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const weekday = weekdays[now.getDay()];
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const month = months[now.getMonth()];
     const year = now.getFullYear();
-    const dateString = `${day}${suffix} ${weekday}, ${year}`;
-    document.getElementById('current-date').textContent = dateString;
+    document.getElementById('current-date').textContent = `${weekday}, ${day}${suffix} ${month} ${year}`;
 }
 updateDate();
 </script>

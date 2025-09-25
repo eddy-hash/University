@@ -4,113 +4,224 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>University Permissions</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 <style>
-/* Base */
-* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; }
-body { display:flex; min-height:100vh; background:#f4f5f7; color:#333; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f5f7;
+    color: #333;
+}
 
 /* Sidebar */
 .sidebar {
-    width:260px; background:#2f3640; color:#fff; padding:30px 20px;
-    display:flex; flex-direction:column; transition:all 0.3s ease;
+    width: 260px;
+    background: #2f3640;
+    color: #fff;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
 }
-.sidebar h1 { font-size:1.8rem; font-weight:700; margin-bottom:40px; color:#0097e6; text-align:center; }
-.nav-links { display:flex; flex-direction:column; gap:15px; }
+.sidebar h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #0097e6;
+    text-align: center;
+}
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 .nav-links a {
-    display:flex; align-items:center; gap:12px;
-    text-decoration:none; padding:12px 18px; border-radius:8px;
-    font-weight:500; color:#fff; transition:all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #fff;
+    transition: all 0.2s ease-in-out;
 }
-.nav-links a:hover { background:#0097e6; color:#fff; }
-.nav-links a .material-icons { font-size:24px; }
+.nav-links a:hover {
+    background: #0097e6;
+    color: #fff;
+}
 
-/* Main */
-.main-content { flex:1; padding:30px 40px; position:relative; }
+/* Main content */
+.main-content {
+    flex: 1;
+    padding: 30px 40px;
+    position: relative;
+}
 
 /* Top bar */
-.top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
-#current-date { font-size:1.1rem; font-weight:bold; color:#2f3640; }
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+#current-date {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #2f3640;
+}
 .logout-btn {
-    display:flex; align-items:center; gap:6px;
-    background: white; color: gray; padding:10px 16px;
-    border:none; border-radius:6px; cursor:pointer; font-weight:600;
-    transition:all 0.2s; outline:none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    color: gray;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    outline: none;
 }
-.logout-btn:hover { background:#603be2; transform:translateY(-2px); color: white;}
-.logout-btn .material-icons { font-size:20px; }
+.logout-btn:hover {
+    background: #603be2;
+    transform: translateY(-2px);
+    color: white;
+}
 
-
+/* Table */
 .table-container {
-    background:#fff; padding:20px; border-radius:12px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.1);
-    max-width:1000px; margin:auto; overflow-x:auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    margin: auto;
+    overflow-x: auto;
 }
-table { width:100%; border-collapse:collapse; }
-th, td { text-align:left; padding:12px 15px; border-bottom:1px solid #ccc; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ccc;
+}
 th {
-    background:#0097e6; color:#fff; font-weight:600;
-    text-transform:uppercase; font-size:0.9rem;
+    background: #0097e6;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
-td { background:#f9f9f9; }
+td {
+    background: #f9f9f9;
+}
 
 .delete-btn {
-    background:#e84118; color:#fff; border:none;
-    padding:6px 12px; border-radius:6px;
-    cursor:pointer; transition:all 0.2s ease; outline:none;
+    background: #e84118;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
 }
-.delete-btn:hover { background:#c23616; }
+.delete-btn:hover {
+    background: #c23616;
+}
 
+/* Profile image */
 .profile-img {
-    width:100px; height:100px; border-radius:50%; object-fit:cover;
-    margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.3);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
-
 
 @media(max-width:900px){
-    body { flex-direction:column; }
-    .sidebar { width:100%; position:absolute; top:0; left:-100%; height:100%; z-index:1000; }
-    .sidebar.active { left:0; }
-    .main-content { padding:20px; }
-    .table-container { max-width:100%; }
+    body {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: -100%;
+        height: 100%;
+        z-index: 1000;
+    }
+    .sidebar.active {
+        left: 0;
+    }
+    .main-content {
+        padding: 20px;
+    }
+    .table-container {
+        max-width: 100%;
+    }
 }
 </style>
 </head>
 <body>
-
-<!-- Sidebar -->
 <aside class="sidebar">
     <h1>Student Info</h1>
     <div class="nav-links">
-        <a href="{{ url_for('dashboard') }}"><span class="material-icons">dashboard</span> Dashboard</a>
-        <a href="{{ url_for('pex_requests') }}"><span class="material-icons">assignment</span> Permission</a>
-        <a href="{{ url_for('update_account') }}"><span class="material-icons">how_to_reg</span> Registration</a>
-        <a href="{{ url_for('statements') }}"><span class="material-icons">receipt_long</span> Statements</a>
-        <a href="{{ url_for('my_room') }}"><span class="material-icons">meeting_room</span> My Room</a>
+        <a href="{{ url_for('dashboard') }}">
+            <img src="{{ url_for('static', filename='images/dashboard.png') }}" alt="Dashboard" width="24" height="24">
+            Dashboard
+        </a>
+        <a href="{{ url_for('pex_requests') }}">
+            <img src="{{ url_for('static', filename='images/permission.png') }}" alt="Permission" width="24" height="24">
+            Permission
+        </a>
+        <a href="{{ url_for('update_account') }}">
+            <img src="{{ url_for('static', filename='images/registration.png') }}" alt="Registration" width="24" height="24">
+            Registration
+        </a>
+        <a href="{{ url_for('statements') }}">
+            <img src="{{ url_for('static', filename='images/book.png') }}" alt="Statements" width="24" height="24">
+            Statements
+        </a>
+        <a href="{{ url_for('select_courses') }}">
+            <img src="{{ url_for('static', filename='images/academic.png') }}" alt="Course" width="24" height="24">
+            Academics
+        </a>
+          <a href="{{ url_for('change_password') }}">
+            <img src="{{ url_for('static', filename='images/password.png') }}" width="24" height="24">Change Password
+        </a>
+    </div>
+</aside>
     </div>
 </aside>
 
-<!-- Main content -->
 <div class="main-content">
 
-    <!-- Top bar -->
     <div class="top-bar">
         <div id="current-date"></div>
-        <form  action="{{ url_for('statements') }}" method="POST">
-            <button class="logout-btn"><span class="material-icons">power_settings_new</span> Logout</button>
+        <form action="{{ url_for('logout') }}" method="get">
+            <button class="logout-btn">Logout</button>
         </form>
     </div>
 
     <h2 style="margin-bottom:20px;">Permission Requests</h2>
 
-    <!-- Profile image -->
-    <div style="text-align:center; margin-bottom:20px;">
+    <img src="{{ url_for('static', filename='images/' ~ user.profile_image) }}" alt="Profile Image" class="profile-img">
 
-    <img src="{{ url_for('static', filename='images/'~(user.profile_image)) }}" alt="Profile Image" class="profile_img">
-
-
-    <!-- Permission table -->
     <div class="table-container">
         <table>
             <thead>
@@ -125,18 +236,17 @@ td { background:#f9f9f9; }
             </thead>
             <tbody>
                 {% for req in user_requests %}
+                <tr>
                     <td>{{ req.id }}</td>
                     <td>{{ req.reason }}</td>
                     <td>{{ req.details }}</td>
                     <td>{{ req.status }}</td>
                     <td>{{ req.created_at }}</td>
-                    
                     <td>
-    <form action="{{ url_for('delete_permission', request_id=req.id)}}" method="POST" >
-        <button type="submit" class="delete-btn">Delete</button>
-    </form>
-</td>
-
+                        <form action="{{ url_for('delete_permission', request_id=req.id)}}" method="POST">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 {% else %}
                 <tr>
@@ -146,11 +256,8 @@ td { background:#f9f9f9; }
             </tbody>
         </table>
     </div>
+
 </div>
-
-<script>
-
-</script>
 
 </body>
 </html>
